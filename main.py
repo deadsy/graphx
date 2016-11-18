@@ -29,7 +29,7 @@ def main():
     gs = star_graph(10)
     g.merge(gs)
 
-  print g.gv_str()
+  g.emit_png('test')
 
 main()
 

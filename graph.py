@@ -4,6 +4,11 @@ Graph Class
 """
 #------------------------------------------------------------------------------
 
+import os
+import subprocess
+
+#------------------------------------------------------------------------------
+
 class Error(Exception):
   """base class for exceptions in this module"""
   pass
@@ -114,5 +119,23 @@ class Graph(object):
       s.append('  %s->%s;' % (edge.n0.name, edge.n1.name))
     s.append('}')
     return '\n'.join(s)
+
+  def emit_gv(self, fname):
+    """emit a graphviz file"""
+    f = open(fname, 'w')
+    f.write(self.gv_str())
+    f.close()
+
+  def emit_png(self, base, tool='neato'):
+    """emit a png file using a graphviz program"""
+    # tool is one of dot,neato,fdp,sfdp,twopi,circo
+    fname_gv = '%s.gv' % base
+    fname_png = '%s.png' % base
+    self.emit_gv(fname_gv)
+    cmd = '%s -Tpng -o%s %s' % (tool, fname_png, fname_gv)
+    rc = subprocess.call(cmd, shell = True)
+    os.unlink(fname_gv)
+    if rc != 0:
+      raise GraphError('uname to create %s' % fname.png)
 
 #------------------------------------------------------------------------------
