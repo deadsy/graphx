@@ -9,22 +9,21 @@ import graph
 
 #------------------------------------------------------------------------------
 
+def star_graph(n):
+  """generate start graph n"""
+  g = graph.Graph('s%d' % n)
+  ni = graph.Node('i')
+  for i in xrange(n):
+    n = graph.Node('e%d' % i)
+    e = graph.Edge('i_to_e%d' % i , ni, n)
+    g.add_edge(e)
+  return g
+
+#------------------------------------------------------------------------------
+
 def main():
   """create a graph"""
-  g = graph.Graph('stuff')
-
-  n0 = graph.Node('A')
-  n1 = graph.Node('B')
-  n2 = graph.Node('C')
-
-  e0 = graph.Edge('AB', n0, n1)
-  e1 = graph.Edge('BC', n1, n2)
-  e2 = graph.Edge('AC', n0, n2)
-
-  g.add_edge(e0)
-  g.add_edge(e1)
-  g.add_edge(e2)
-
+  g = star_graph(10)
   print g
 
 main()
